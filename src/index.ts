@@ -1,7 +1,67 @@
-import colors from 'colors'
-import server from './server'
+import colors from 'colors';
+import server from './server';
 
-const port = process.env.PORT || 4000
-server.listen(port, ()=>{
-  console.log(colors.green.bold(`Servidor port: ${port}`))
-})
+const port = process.env.PORT || 4000;
+
+server.listen(port, () => {
+  console.log(colors.green.bold(`SERVER port: ${port}`));
+});
+
+let productName = 'Table';
+let isAuth = false;
+let price = 30;
+
+type Product = {
+  id: number;
+  price: number;
+  name: string;
+};
+
+//Utility types, solo existen en type.
+//Pick<$Padre, 'aquí cuál es el único que va a tomar del padre | Selecciona únicamente el que requieres'>
+//Omit<$Padre, 'Cuáles serán omitidos del padre'>
+//Omit<$Padre, 'Cuáles serán omitidos del padre'>
+//Omit<$Padre, 'item A' | 'item B'>
+//Pick / Omit <$Padre, 'Pick solo tomará en cuenta estos elementos'>
+//Pick / Omit <$Padre, 'Omit no tomará en cuenta estos elementos'>
+
+type ProductUtilityTyper = Pick<Product, 'id'>;
+
+type FullProductType = Product & {
+  image: string;
+};
+
+// las interfaces no llevan =
+interface ProductInter {
+  id: number;
+  price: number;
+  name: string;
+}
+
+interface FullProduct extends ProductInter {
+  image: string;
+}
+
+interface ProductID {
+  // extender un valor de otra interface
+  id: Product['id'];
+}
+
+let product3: ProductID = {
+  id: 11,
+};
+
+let product1: Product = {
+  id: 1,
+  price: 30,
+  name: 'Table',
+};
+
+let product2: FullProduct = {
+  id: 2,
+  price: 20,
+  name: 'Table',
+  image: 'img.jpg',
+};
+
+const numbers = [10, 20, 30];
