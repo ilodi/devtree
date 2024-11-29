@@ -1,6 +1,6 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 
-interface IUser {
+interface IUser extends Document {
   name: string;
   email: string;
   password: string;
@@ -11,18 +11,18 @@ interface IUser {
 const userSchema = new Schema({
   name: {
     type: String,
-    require: true,
+    required: true,
     trim: true,
   },
   email: {
     type: String,
-    require: true,
+    required: true,
     trim: true,
     unique: true,
   },
   password: {
     type: String,
-    require: true,
+    required: true,
     trim: true,
   },
 });

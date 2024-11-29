@@ -1,5 +1,14 @@
-.env
-node_modulues/
-package-lock.json
+# Ignorar dependencias
+node_modules/
+
+# Ignorar archivos generados
+dist/
+
+# Ignorar configuraciones específicas del sistema
 .DS_Store
-dist
+
+# Ignorar el archivo .env
+.env
+
+# Ignorar el archivo de lock si no es necesario en el control de versiones
+package-lock.json
