@@ -6,10 +6,10 @@ import { connectDB } from './config/db';
 const app = express();
 connectDB();
 
-//app.use, cada que se hace una peticion usara la de el file
-app.use('/api', router);
-
 //leer datos de formularios
 app.use(express.json());
+
+//app.use, cada que se hace una peticion usara la de el file
+app.use('/api', router);
 
 export default app;
