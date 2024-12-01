@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import slug from 'slug';
 import User from '../models/Users';
 import { hashPassword } from '../utils/auth';
 
@@ -7,7 +8,7 @@ export const createAccount = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { email, password } = req.body;
+    const { email, password, handle } = req.body;
     const userExists = await User.findOne({ email });
     if (userExists) {
       res.status(409).json({ error: 'El usuario ya está registrado' });
@@ -16,6 +17,7 @@ export const createAccount = async (
 
     const user = new User(req.body);
     user.password = await hashPassword(password);
+    user.handle = slug(handle, '_');
 
     await user.save();
     //finalizar registro

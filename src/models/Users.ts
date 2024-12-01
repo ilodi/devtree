@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 interface IUser extends Document {
+  handle: string;
   name: string;
   email: string;
   password: string;
@@ -9,6 +10,13 @@ interface IUser extends Document {
 //  trim: true, Limpia los espacios blancos
 
 const userSchema = new Schema({
+  handle: {
+    type: String,
+    required: true,
+    trim: true,
+    lowercase: true,
+    unique: true,
+  },
   name: {
     type: String,
     required: true,
@@ -19,11 +27,17 @@ const userSchema = new Schema({
     required: true,
     trim: true,
     unique: true,
+    lowercase: true,
+    match: [
+      /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/,
+      'Por favor ingrese un correo electrónico válido',
+    ],
   },
   password: {
     type: String,
     required: true,
     trim: true,
+    minlength: [6, 'La contraseña debe tener al menos 6 caracteres'],
   },
 });
 
