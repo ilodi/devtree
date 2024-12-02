@@ -1,3 +1,13 @@
+let productName = 'Table';
+let isAuth = false;
+let price = 30;
+
+type Product = {
+  id: number;
+  price: number;
+  name: string;
+};
+
 //Utility types, solo existen en type.
 //Pick<$Padre, 'aquí cuál es el único que va a tomar del padre | Selecciona únicamente el que requieres'>
 //Omit<$Padre, 'Cuáles serán omitidos del padre'>
