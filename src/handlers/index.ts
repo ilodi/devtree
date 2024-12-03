@@ -1,11 +1,18 @@
 import { Request, Response } from 'express';
 import User from '../models/Users';
 import { hashPassword } from '../utils/auth';
+import { validationResult } from 'express-validator';
 
 export const createAccount = async (
   req: Request,
   res: Response
 ): Promise<void> => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() });
+    return;
+  }
+
   try {
     const { email, password } = req.body;
 
@@ -33,8 +40,35 @@ export const createAccount = async (
     user.handle = handle;
 
     await user.save();
-    res.status(201).send({ mensaje: 'Datos recibidos correctamente' });
+
+    // Respuesta exitosa
+    res.status(201).json({ mensaje: 'Usuario creado exitosamente' });
   } catch (error) {
-    res.status(500).json({ error: 'Error del Servidor' });
+    console.error('Error en createAccount:', error);
+    res.status(500).json({ error: 'Error del servidor' });
+  }
+};
+
+export const login = async (req: Request, res: Response): Promise<void> => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() });
+    return;
+  }
+
+  try {
+    const { email, password } = req.body;
+
+    // Simula lógica de autenticación
+    const user = await User.findOne({ email });
+    if (!user) {
+      res.status(401).json({ error: 'Credenciales incorrectas' });
+      return;
+    }
+
+    res.status(200).json({ mensaje: 'Inicio de sesión exitoso' });
+  } catch (error) {
+    console.error('Error en login:', error);
+    res.status(500).json({ error: 'Error del servidor' });
   }
 };
